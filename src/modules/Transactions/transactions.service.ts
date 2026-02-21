@@ -32,4 +32,23 @@ export class TransactionsService {
     const expense = await this.getTotalExpenses();
     return income - expense;
   }
+
+  async getBudgetLeft(): Promise<number> {
+    const result = await this.repo
+      .createQueryBuilder('t')
+      .select('SUM(t.budget)', 'total')
+      .getRawOne<{ total: string }>();
+
+    const expenses = await this.getTotalExpenses();
+    const budgetAmount = parseFloat(result?.total ?? '0');
+    return budgetAmount - expenses;
+  }
+
+  async getAllTransactions(): Promise<Transaction[]> {
+    return await this.repo.find();
+  }
+
+  async getById(id: number): Promise<Transaction | null> {
+    return await this.repo.findOne({ where: { id } });
+  }
 }

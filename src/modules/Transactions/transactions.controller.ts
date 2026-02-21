@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 
 @Controller('transactions')
@@ -21,5 +21,21 @@ export class TransactionsController {
   async getNetAmount() {
     const netAmount = await this.transactionsService.getNetAmount();
     return { netAmount };
+  }
+
+  @Get('budget-left')
+  async getBudgetLeft() {
+    const budgetLeft = await this.transactionsService.getBudgetLeft();
+    return { budgetLeft };
+  }
+
+  @Get()
+  async getAllTransactions() {
+    return await this.transactionsService.getAllTransactions();
+  }
+
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return await this.transactionsService.getById(Number(id));
   }
 }

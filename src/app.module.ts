@@ -12,13 +12,10 @@ import { TransactionsModule } from './modules/Transactions/transactions.module';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get<number>('DB_PORT'),
-        username: config.get('DB_USER'),
-        password: config.get('DB_PASS'),
-        database: config.get('DB_NAME'),
+        url: config.get('DATABASE_URL'),
+        ssl: { rejectUnauthorized: false },
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, //disable in production
+        synchronize: false, //disable in production
       }),
       inject: [ConfigService],
     }),

@@ -16,4 +16,7 @@ export class Transaction {
 
   @Column()
   date: Date;
+
+  @Column('decimal', { precision: 10, scale: 2, default: 0 })
+  budget: number;
 }
